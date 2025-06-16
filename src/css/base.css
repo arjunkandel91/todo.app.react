@@ -1,0 +1,57 @@
+:root { /* light theme */
+    --site-background: #fff;
+    --site-orange: #FF9800;
+
+    --site-white: #ffffff;
+    --site-soft-white: #f4f4f4;
+    --site-mute-white: #f2f2f2;
+
+    --site-black: #000000;
+    --site-soft-black: #181818;
+    --site-mute-black: #222222;
+
+    --site-stroke: #222222;
+    --site-soft-stroke: #E1E1E1;
+    --site-mute-stroke: #f2f2f2;
+}
+
+.dark-mode { /* dark theme */ 
+    --site-background: #1a1a1a;
+    --site-orange: #FF9800;
+
+    --site-white: #000000;
+    --site-soft-white: #242424;
+    --site-mute-white: #454444;
+
+    --site-black: #fff;
+    --site-soft-black: #dedede;
+    --site-mute-black: #a2a2a2;
+
+    --site-stroke: #fafafa;
+    --site-soft-stroke: #a7a7a7;
+    --site-mute-stroke: #282727;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    font-family: "Quicksand", sans-serif;
+    color: var(--site-black);
+    transition: all 0.3s ease-in-out;
+}
+
+body {
+    background-color: var(--site-background);
+    transition: all 0.3s ease-in-out;
+}
+
+/* other dark-mode settings */
+body.dark-mode img {filter: invert(1);opacity: 0.8;}
+body.dark-mode div.delete-box {box-shadow: 0px 0px 35px #ffffff1f;}
+body.dark-mode div.delete-box div.action button {color: #000000;}
+body.dark-mode ul.todo-list li.edit, body.dark-mode div.input-box {border: 1px solid #5b5b5b;}
+body.dark-mode div.search-box, body.dark-mode div.filter-todo {border: 1px solid #6b6b6b;}
+body.dark-mode div.filter-todo ul li:hover {background-color: var(--site-white);}
+body.dark-mode header {background-color: var(--site-background);}
+body.dark-mode div.notification img {filter: invert(0);}
