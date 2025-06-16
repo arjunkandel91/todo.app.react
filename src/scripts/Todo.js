@@ -1,9 +1,8 @@
-import { ref } from "vue";
 import Storage from "./Storage";
 
 // the todo list constant which sets data initially from the Local Storage
 // it is reactive data and will modified in other actions
-export const TodoList = ref(Storage.get());
+export const TodoList = Storage.get();
 
 /**
  * This function show/hide toast notification on every action on the app
@@ -13,11 +12,13 @@ export const TodoList = ref(Storage.get());
  * 
 */
 
-export const NotifyPop = (notify, content = "Task Updated!") => {
-    notify.value.content = content;
-    notify.value.show = true;
+export const NotifyPop = (state, setState, content = "Task Updated!") => {
+    setState({
+        show: true,
+        content: content
+    });
 
-    setTimeout(() => notify.value.show = false, 2000);
+    setTimeout(() => setState({...state, show: false}), 2000);
 };
 
 /**
@@ -59,7 +60,7 @@ export const SearchTodoList = (keyword) => {
  * @param {String} type title || date || completed || incomplete (default)
  */
 
-export const FilterTodo = (type) => {
+export const FilterTodo = (type, state) => {
     switch (type) {
         case 'title':
             FilterTodoTitle();
@@ -74,7 +75,7 @@ export const FilterTodo = (type) => {
             break;
         
         default:
-            FilterComplete('incomplete');
+            return FilterComplete('incomplete', state);
     }
 };
 
@@ -103,15 +104,15 @@ const FilterTodoDate = () => {
  * this will make slice of 2 different array which contain completed and incomplete todos
  * after that it will concat how it is requested
  */
-const FilterComplete = (type) => {
+const FilterComplete = (type, state) => {
     let slice1 = [] 
     let slice2 = [];
-    TodoList.value.forEach(t => {
+    state.forEach(t => {
         if (!t.completed) slice1.push(t);
         else slice2.push(t);
     });
 
-    TodoList.value = (type == 'incomplete') ? slice1.concat(slice2) : slice2.concat(slice1);
+    return (type == 'incomplete') ? slice1.concat(slice2) : slice2.concat(slice1);
 };
 
 // all filter settings for filter context menu in the app
