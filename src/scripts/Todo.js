@@ -26,9 +26,9 @@ export const NotifyPop = (state, setState, content = "Task Updated!") => {
  * @returns The newly generated unique ID, which is the incremented value of the highest occurring ID
 */
 
-export const TodoUniqueId = () => {
+export const TodoUniqueId = (state) => {
     let unique = 1;
-    TodoList.value.forEach(t => {
+    state.forEach(t => {
         if (t.id >= unique) unique = t.id + 1;
     });
 
@@ -43,12 +43,13 @@ export const TodoUniqueId = () => {
  * @param {String} keyword typed on the search input field
  * 
  */
-export const SearchTodoList = (keyword) => {
-    TodoList.value.map(t => {
-        if (t.title.toLowerCase().includes(keyword.toLowerCase())) t.hide = false;
-        else t.hide = true;
-        return t;
-    });
+export const SearchTodoList = (state, setState, keyword) => {
+    const updated = state.map(s => {
+        if (s.title.toLowerCase().includes(keyword.toLowerCase())) s.hide = false;
+        else s.hide = true;
+        return s;
+    })
+    setState(updated);
 };
 
 /**
