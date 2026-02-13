@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // react outside click handler from https://github.com/airbnb/react-outside-click-handler
 import OutsideClickHandler from 'react-outside-click-handler';
@@ -72,9 +72,6 @@ function TodoHeader({ count, addTask, searchTask, todoFilter}) {
         if (hasDarkMode) document.body.classList.remove('dark-mode');
         else document.body.classList.add('dark-mode');
     }
-
-    useEffect(ToggleDarkMode, []);
-
 
     return (
         <header>
