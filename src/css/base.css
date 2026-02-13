@@ -38,12 +38,10 @@
     list-style-type: none;
     font-family: "Quicksand", sans-serif;
     color: var(--site-black);
-    transition: all 0.3s ease-in-out;
 }
 
 body {
     background-color: var(--site-background);
-    transition: all 0.3s ease-in-out;
 }
 
 /* other dark-mode settings */

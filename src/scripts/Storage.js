@@ -29,7 +29,22 @@ const get = () => {
     }
 };
 
+/**
+ * This function will erase todo-list data
+ * @returns {Boolean} return true once data is removed from localStorage
+ */
+
+const remove = () => {
+    try {
+        LocalStorage.removeItem(key);
+        return true;
+    }catch (e) {
+        return false;
+    }
+}
+
 export default {
     store,
-    get
+    get,
+    remove
 }

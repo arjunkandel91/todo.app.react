@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { edit, deleteicon } from "../scripts/Image"
+import { edit, deleteIcon } from "../scripts/Image"
 
 function TodoCard({ todo, complete, del, editInit, editCancel, editTask }) {
 
@@ -53,7 +53,7 @@ function TodoCard({ todo, complete, del, editInit, editCancel, editTask }) {
         {/* action to edit and delete the todo */}
         <div className="action">
             <img src={edit} onClick={() => editInit(todo)} /> 
-            <img src={deleteicon} onClick={() => del(todo)} />
+            <img src={deleteIcon} onClick={() => del(todo)} />
         </div>
 
         {/* action to save or cancel while todo is on edit mode */}

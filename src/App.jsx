@@ -1,18 +1,13 @@
 // react
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 // script
 import { FilterTodo, NotifyPop, TodoUniqueId, SearchTodoList } from './scripts/Todo';
 import Storage from './scripts/Storage';
 
 // components
-import TodoWrap from './components/TodoWrap';
-import TodoHeader from './components/TodoHeader';
-import TodoCard from './components/TodoCard';
-import Notification from './components/Notification';
-import DeleteModel from './components/DeleteModel';
-
-
+import { TodoWrap, TodoHeader, TodoCard, 
+        DeleteModel, Notification, EmptyTask } from './components/index';
 
 function App() {
   
@@ -43,14 +38,13 @@ function App() {
     }));
 
     // default filter
-    setTodoList(FilterTodo('incomplete', TodoList));  
+    FilterTodo('incomplete', TodoList, setTodoList);
 
     // update storage
     Storage.store(TodoList);
 
     // toast notify
-    NotifyPop(Notify, setNotify, 'Task successfully updated!');
-    
+    NotifyPop(Notify, setNotify, 'Task successfully updated!');    
   };
 
 
@@ -109,10 +103,11 @@ function App() {
   }
 
   /**
-   * This function is called from the child component 'TodoCard.vue' after submission to update the selected task
+   * This function is called from the child component 'TodoCard.jsx' after submission to update the selected task
    * @param {String} id 
    * @param {String} title updated title
    * @param {String} description updated description
+   * It will update the DOM and storage and show the notification
   */
 
   const EditTask = (id, title, description) => {
@@ -130,7 +125,7 @@ function App() {
     Storage.store(updated);
 
     // toast notify
-    NotifyPop(Notify, 'Task successfully updated!');
+    NotifyPop(Notify, setNotify, 'Task successfully updated!');
   }
 
 
@@ -155,7 +150,9 @@ function App() {
     <TodoWrap>
         {/* Header content / search / task search 
             Add new task / task input section */}
-        <TodoHeader count={TodoList.length} addTask={AddNewTask} searchTask={(keyword) => SearchTodoList(TodoList, setTodoList, keyword)} />
+        <TodoHeader count={TodoList.length} addTask={AddNewTask} 
+                    searchTask={(keyword) => SearchTodoList(TodoList, setTodoList, keyword)}
+                    todoFilter={(type) => FilterTodo(type, TodoList, setTodoList)} />
 
         {/* Task App List contains all task list created */}
         <ul className="todo-list">
@@ -170,13 +167,13 @@ function App() {
         </ul>
         {/* Task App List */}
 
+        {/* Empty Task contains element hidden but shown only there are no tasks */}
+        { TodoList.length === 0 && <EmptyTask /> }
+        {/* Empty Task */}
 
+        {/* Notification and Model */}
         {Notify.show && <Notification content={Notify.content} />}
-
         {DeleteTodo.show && <DeleteModel task={DeleteTodo.task} cancel={() => setDeleteTodo({...DeleteTodo, show: false})} del={DeleteTask} />}
-          
-        
-
     </TodoWrap>
   )
 }

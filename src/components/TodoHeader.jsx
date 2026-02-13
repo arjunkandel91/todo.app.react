@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { search, filter, mode, add, close } from "../scripts/Image";
+// react outside click handler from https://github.com/airbnb/react-outside-click-handler
+import OutsideClickHandler from 'react-outside-click-handler';
 
-function TodoHeader({ count, addTask, searchTask }) {
+// app images
+import { search, filter, check, mode, add, close } from "../scripts/Image";
+import { Filters } from "../scripts/Todo";
+
+function TodoHeader({ count, addTask, searchTask, todoFilter}) {
 
     // component variables and form input
     let [CompData, setCompData] = useState({
@@ -12,6 +17,25 @@ function TodoHeader({ count, addTask, searchTask }) {
         title: '',
         description: ''
     });
+
+    // show or hide filter menu
+    let [ShowFilterMenu, setShowFilterMenu] = useState(false);
+    let [FilterMenuContent, setFilterMenuContent] = useState(Filters);
+
+    // Function triggered when an option in the filter menu is clicked  
+    // Activates the selected option and calls the function to filter the to-do list based on the chosen menu item  
+    const Filter = (type) => {
+        if (type !== 'none') {
+            setFilterMenuContent(FilterMenuContent.map(f => {
+                if (f.type == type) f.active = true;
+                else f.active = false;
+                return f;
+            }));
+
+            todoFilter(type);
+            setShowFilterMenu(false);
+        }
+    }
 
     // clear form data and hide input boxes etc.
     const ClearForm = () => {
@@ -42,6 +66,15 @@ function TodoHeader({ count, addTask, searchTask }) {
         searchTask('');
     }
 
+    // light and dark theme toggle button click handler
+    const ToggleDarkMode = () => {
+        let hasDarkMode = document.body.classList.contains('dark-mode');
+        if (hasDarkMode) document.body.classList.remove('dark-mode');
+        else document.body.classList.add('dark-mode');
+    }
+
+    useEffect(ToggleDarkMode, []);
+
 
     return (
         <header>
@@ -57,10 +90,24 @@ function TodoHeader({ count, addTask, searchTask }) {
                     </div>}
 
                     {/* filter action */}
-                    <img src={filter} />
+                    <img src={filter} onClick={() => setShowFilterMenu(true)}/>
+                    {ShowFilterMenu && 
+                    <OutsideClickHandler onOutsideClick={() => setShowFilterMenu(false)}>
+                        <div className="filter-todo">
+                            <ul>
+                                {FilterMenuContent.map(menu => {
+                                    return(<li key={menu.id} className={menu.active ? 'active' : ''} onClick={() => Filter(menu.type)}>
+                                                <span><img src={check} /></span>
+                                                <p>{menu.name}</p>
+                                            </li>);
+                                })}                            
+                            </ul>
+                        </div>
+                    </OutsideClickHandler>
+                    }
 
                     {/* dark and light theme toggle action */}
-                    <img src={mode} />
+                    <img src={mode} onClick={ToggleDarkMode} />
                 </div>
             </div>
 

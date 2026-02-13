@@ -6,7 +6,8 @@ import filter from './../images/filter.svg';
 import mode from './../images/mode.svg';
 import add from './../images/add.svg';
 import edit from './../images/edit.svg';
-import deleteicon from './../images/delete.svg';
+import deleteIcon from './../images/delete.svg';
+import check from './../images/check.svg';
 
 export { 
     close,
@@ -17,5 +18,6 @@ export {
     mode,
     add,
     edit,
-    deleteicon,
+    deleteIcon,
+    check
 }
